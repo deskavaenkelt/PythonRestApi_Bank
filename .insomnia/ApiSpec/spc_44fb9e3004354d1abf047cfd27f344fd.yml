@@ -1,0 +1,31 @@
+_id: spc_44fb9e3004354d1abf047cfd27f344fd
+type: ApiSpec
+parentId: wrk_bcd70a0415ee4afd9f3b4c235c38c938
+modified: 1612358272919
+created: 1612358062897
+fileName: PythonRestApi_Bank
+contents: |-
+  # Specify that your document is the OpenAPI 3 format
+  openapi: 3.0.0
+
+  # Define high-level metadata for the API
+  info:
+    version: 1.0.0
+    title: Python REST API - Bank
+    description: Python with a RESTful API
+   
+  # Specify the base URL the API can be accessed from
+  servers:
+    - url: localhost
+
+  # Define operations for the API. This will be where most
+  # of the work is done. The first route you'll be defining
+  # is `GET /recentchanges.json`
+  paths:
+  #  /recentchanges.json:
+  #    get:
+  #      summary: Recent Changes
+    /:
+      get:
+        summary: index
+contentType: yaml
