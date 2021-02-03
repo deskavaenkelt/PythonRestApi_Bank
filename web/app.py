@@ -5,31 +5,24 @@ from encryption import generate_hashed_password, verify_password
 from messages import message_signup_success, message_user_fail, message_password_fail, \
     message_amount_added_successfully, message_amount_invalid, message_amount_insufficient, message_user_dont_exist, \
     message_loan_added_successfully, message_loan_paid_successfully, message_loan_paid_fail, message_user_deleted
-from mongodb import user_exist, create_new_account, user_owned_amount, user_debt_amount, update_account_balance, \
+from mongodb import user_exist, create_new_account, available_amount, debt_amount, update_account_balance, \
     update_debt, get_user_balance, delete_user_account, get_all_users
+from posted_data import username_password, username_password_amount, username_password_to_amount
 
 app = Flask(__name__)
 api = Api(app)
 
-USERNAME = "username"
-PASSWORD = "password"
-AMOUNT = "amount"
 BANK = "BANK"
-TO = "to"
 
 
 class Register(Resource):
     def post(self):
-        posted_data = request.get_json()
-
-        username = posted_data[USERNAME]
-        password = posted_data[PASSWORD]
+        username, password = username_password(request.get_json())
 
         if user_exist(username):
             return message_user_fail()
 
         hashed_password = generate_hashed_password(password)
-
         create_new_account(username, hashed_password)
 
         return message_signup_success()
@@ -41,16 +34,6 @@ def verify_account(username, password) -> bool:
 
     successful_verification = verify_password(username, password)
     return successful_verification
-
-
-def available_amount(username):
-    cash = user_owned_amount(username)
-    return cash
-
-
-def debt_with_user(username):
-    debt = user_debt_amount(username)
-    return debt
 
 
 def verify_credentials(username, password):
@@ -67,15 +50,11 @@ def verify_credentials(username, password):
 
 class Add(Resource):
     def post(self):
-        postedData = request.get_json()
+        username, password, money = username_password_amount(request.get_json())
 
-        username = postedData[USERNAME]
-        password = postedData[PASSWORD]
-        money = postedData[AMOUNT]
-
-        retJson, error = verify_credentials(username, password)
+        ret_json, error = verify_credentials(username, password)
         if error:
-            return jsonify(retJson)
+            return jsonify(ret_json)
 
         if money <= 0:
             return message_amount_invalid()
@@ -94,16 +73,11 @@ class Add(Resource):
 
 class Transfer(Resource):
     def post(self):
-        postedData = request.get_json()
+        username, password, to, money = username_password_to_amount(request.get_json())
 
-        username = postedData[USERNAME]
-        password = postedData[PASSWORD]
-        to = postedData[TO]
-        money = postedData[AMOUNT]
-
-        retJson, error = verify_credentials(username, password)
+        ret_json, error = verify_credentials(username, password)
         if error:
-            return jsonify(retJson)
+            return jsonify(ret_json)
 
         cash = available_amount(username)
         if cash <= 0:
@@ -128,32 +102,25 @@ class Transfer(Resource):
 
 class Balance(Resource):
     def post(self):
-        postedData = request.get_json()
+        username, password = username_password(request.get_json())
 
-        username = postedData[USERNAME]
-        password = postedData[PASSWORD]
-
-        retJson, error = verify_credentials(username, password)
+        ret_json, error = verify_credentials(username, password)
         if error:
-            return jsonify(retJson)
+            return jsonify(ret_json)
 
         return get_user_balance(username)
 
 
 class TakeLoan(Resource):
     def post(self):
-        posted_data = request.get_json()
+        username, password, money = username_password_amount(request.get_json())
 
-        username = posted_data[USERNAME]
-        password = posted_data[PASSWORD]
-        money = posted_data[AMOUNT]
-
-        retJson, error = verify_credentials(username, password)
+        ret_json, error = verify_credentials(username, password)
         if error:
-            return jsonify(retJson)
+            return jsonify(ret_json)
 
         cash = available_amount(username)
-        debt = debt_with_user(username)
+        debt = debt_amount(username)
         update_account_balance(username, cash + money)
         update_debt(username, debt + money)
 
@@ -162,22 +129,18 @@ class TakeLoan(Resource):
 
 class PayLoan(Resource):
     def post(self):
-        posted_data = request.get_json()
+        username, password, money = username_password_amount(request.get_json())
 
-        username = posted_data[USERNAME]
-        password = posted_data[PASSWORD]
-        money = posted_data[AMOUNT]
-
-        retJson, error = verify_credentials(username, password)
+        ret_json, error = verify_credentials(username, password)
         if error:
-            return jsonify(retJson)
+            return jsonify(ret_json)
 
         cash = available_amount(username)
 
         if cash < money:
             return message_loan_paid_fail()
 
-        debt = debt_with_user(username)
+        debt = debt_amount(username)
         update_account_balance(username, cash - money)
         update_debt(username, debt - money)
 
@@ -186,10 +149,7 @@ class PayLoan(Resource):
 
 class DeleteUser(Resource):
     def delete(self):
-        posted_data = request.get_json()
-
-        username = posted_data[USERNAME]
-        password = posted_data[PASSWORD]
+        username, password = username_password(request.get_json())
 
         existing_user = verify_account(username, password)
 

@@ -37,13 +37,13 @@ def get_hashed_password(username) -> bytes:
     return hashed_password
 
 
-def user_owned_amount(username) -> int:
+def available_amount(username) -> int:
     return users.find({
         USERNAME: username
     })[0][OWN]
 
 
-def user_debt_amount(username) -> int:
+def debt_amount(username) -> int:
     return users.find({
         USERNAME: username
     })[0][DEPT]
