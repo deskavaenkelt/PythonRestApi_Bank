@@ -1,9 +1,9 @@
-_id: req_wrk_bcd70a0415ee4afd9f3b4c235c38c9385af80e6e
+_id: req_39b9931e39534d81b1131b44e4283553
 type: Request
-parentId: wrk_bcd70a0415ee4afd9f3b4c235c38c938
-modified: 1612361843282
-created: 1612358231935
-url: "{{ base_url }}/"
+parentId: fld_9946c9adf3a24f5d96f933002905fc79
+modified: 1612361917184
+created: 1612361900696
+url: localhost
 name: index
 description: ""
 method: GET
@@ -11,7 +11,7 @@ body: {}
 parameters: []
 headers: []
 authentication: {}
-metaSortKey: -1612358231935
+metaSortKey: -1612361900696
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

@@ -1,26 +1,26 @@
-_id: req_wrk_bcd70a0415ee4afd9f3b4c235c38c9385d9331ae
+_id: req_15562fb9d7664b53bbc4ff1bc061a84c
 type: Request
-parentId: wrk_bcd70a0415ee4afd9f3b4c235c38c938
-modified: 1612361843268
-created: 1612359871341
-url: "{{ base_url }}/payloan"
-name: Pay loan with amount
+parentId: fld_28b2c72f5acd4798aac91e706ae26ff6
+modified: 1612362434426
+created: 1612362421819
+url: localhost/delete
+name: Cesar
 description: ""
-method: POST
+method: DELETE
 body:
   mimeType: application/json
   text: |-
     {
-      "username": "user1",
-      "password": "password",
-      "amount": 100
+    	"username": "cesar",
+    	"password": "cesar_password"
     }
 parameters: []
 headers:
   - name: Content-Type
     value: application/json
+    id: pair_3e61633887074f2cbbdfd2df088b2ba8
 authentication: {}
-metaSortKey: -1612359871341
+metaSortKey: -1612362421819
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true

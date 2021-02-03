@@ -1,26 +1,26 @@
-_id: req_wrk_bcd70a0415ee4afd9f3b4c235c38c9385d9331ae
+_id: req_6022716eafa64abd8f2c4fab53f585f8
 type: Request
-parentId: wrk_bcd70a0415ee4afd9f3b4c235c38c938
-modified: 1612361843268
-created: 1612359871341
-url: "{{ base_url }}/payloan"
-name: Pay loan with amount
+parentId: fld_1e21d66a9bb446e18919d7efb6059d7c
+modified: 1612362194628
+created: 1612362181995
+url: localhost/balance
+name: Adam
 description: ""
 method: POST
 body:
   mimeType: application/json
   text: |-
     {
-      "username": "user1",
-      "password": "password",
-      "amount": 100
+    	"username": "adam",
+    	"password": "adam_password"
     }
 parameters: []
 headers:
   - name: Content-Type
     value: application/json
+    id: pair_e6b45470cbca4d718b64d6de9831d16b
 authentication: {}
-metaSortKey: -1612359871341
+metaSortKey: -1612362106596.5
 isPrivate: false
 settingStoreCookies: true
 settingSendCookies: true
