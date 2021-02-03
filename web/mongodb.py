@@ -5,9 +5,16 @@ client = MongoClient("mongodb://db:27017")
 db = client.MoneyManagementDB
 users = db["Users"]
 
+USERNAME = "Username"
+PASSWORD = "Password"
+OWN = "Own"
+DEPT = "Debt"
+SET = "$set"
+ID = "_id"
+
 
 def user_exist(username) -> bool:
-    if users.find({"Username": username}).count() == 0:
+    if users.find({USERNAME: username}).count() == 0:
         return False
     else:
         return True
@@ -15,59 +22,59 @@ def user_exist(username) -> bool:
 
 def create_new_account(username, hashed_password):
     users.insert({
-        "Username": username,
-        "Password": hashed_password,
-        "Own": 0,
-        "Debt": 0
+        USERNAME: username,
+        PASSWORD: hashed_password,
+        OWN: 0,
+        DEPT: 0
     })
 
 
 def get_hashed_password(username) -> bytes:
     hashed_password = users.find({
-        "Username": username
-    })[0]["Password"]
+        USERNAME: username
+    })[0][PASSWORD]
 
     return hashed_password
 
 
 def user_owned_amount(username) -> int:
     return users.find({
-        "Username": username
-    })[0]["Own"]
+        USERNAME: username
+    })[0][OWN]
 
 
 def user_debt_amount(username) -> int:
     return users.find({
-        "Username": username
-    })[0]["Debt"]
+        USERNAME: username
+    })[0][DEPT]
 
 
 def update_account_balance(username, balance):
     users.update({
-        "Username": username
+        USERNAME: username
     }, {
-        "$set": {
-            "Own": balance
+        SET: {
+            OWN: balance
         }
     })
 
 
 def update_debt(username, balance):
     users.update({
-        "Username": username
+        USERNAME: username
     }, {
-        "$set": {
-            "Debt": balance
+        SET: {
+            DEPT: balance
         }
     })
 
 
 def get_user_balance(username):
     retJson = users.find({
-        "Username": username
+        USERNAME: username
     }, {
-        "Password": 0,  # projection
-        "_id": 0
+        PASSWORD: 0,  # projection
+        ID: 0
     })[0]
 
     return jsonify(retJson)
@@ -75,7 +82,7 @@ def get_user_balance(username):
 
 def delete_user_account(username):
     users.delete_one({
-        "Username": username
+        USERNAME: username
     })
 
 

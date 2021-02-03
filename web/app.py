@@ -11,13 +11,19 @@ from mongodb import user_exist, create_new_account, user_owned_amount, user_debt
 app = Flask(__name__)
 api = Api(app)
 
+USERNAME = "username"
+PASSWORD = "password"
+AMOUNT = "amount"
+BANK = "BANK"
+TO = "to"
+
 
 class Register(Resource):
     def post(self):
         posted_data = request.get_json()
 
-        username = posted_data["username"]
-        password = posted_data["password"]
+        username = posted_data[USERNAME]
+        password = posted_data[PASSWORD]
 
         if user_exist(username):
             return message_user_fail()
@@ -63,9 +69,9 @@ class Add(Resource):
     def post(self):
         postedData = request.get_json()
 
-        username = postedData["username"]
-        password = postedData["password"]
-        money = postedData["amount"]
+        username = postedData[USERNAME]
+        password = postedData[PASSWORD]
+        money = postedData[AMOUNT]
 
         retJson, error = verify_credentials(username, password)
         if error:
@@ -77,8 +83,8 @@ class Add(Resource):
         cash = available_amount(username)
         money -= 1  # Transaction fee
         # Add transaction fee to bank account
-        bank_cash = available_amount("BANK")
-        update_account_balance("BANK", bank_cash + 1)
+        bank_cash = available_amount(BANK)
+        update_account_balance(BANK, bank_cash + 1)
 
         # Add remaining to user
         update_account_balance(username, cash + money)
@@ -90,10 +96,10 @@ class Transfer(Resource):
     def post(self):
         postedData = request.get_json()
 
-        username = postedData["username"]
-        password = postedData["password"]
-        to = postedData["to"]
-        money = postedData["amount"]
+        username = postedData[USERNAME]
+        password = postedData[PASSWORD]
+        to = postedData[TO]
+        money = postedData[AMOUNT]
 
         retJson, error = verify_credentials(username, password)
         if error:
@@ -111,9 +117,9 @@ class Transfer(Resource):
 
         cash_from = available_amount(username)
         cash_to = available_amount(to)
-        bank_cash = available_amount("BANK")
+        bank_cash = available_amount(BANK)
 
-        update_account_balance("BANK", bank_cash + 1)
+        update_account_balance(BANK, bank_cash + 1)
         update_account_balance(to, cash_to + money - 1)
         update_account_balance(username, cash_from - money)
 
@@ -124,8 +130,8 @@ class Balance(Resource):
     def post(self):
         postedData = request.get_json()
 
-        username = postedData["username"]
-        password = postedData["password"]
+        username = postedData[USERNAME]
+        password = postedData[PASSWORD]
 
         retJson, error = verify_credentials(username, password)
         if error:
@@ -138,9 +144,9 @@ class TakeLoan(Resource):
     def post(self):
         posted_data = request.get_json()
 
-        username = posted_data["username"]
-        password = posted_data["password"]
-        money = posted_data["amount"]
+        username = posted_data[USERNAME]
+        password = posted_data[PASSWORD]
+        money = posted_data[AMOUNT]
 
         retJson, error = verify_credentials(username, password)
         if error:
@@ -158,9 +164,9 @@ class PayLoan(Resource):
     def post(self):
         posted_data = request.get_json()
 
-        username = posted_data["username"]
-        password = posted_data["password"]
-        money = posted_data["amount"]
+        username = posted_data[USERNAME]
+        password = posted_data[PASSWORD]
+        money = posted_data[AMOUNT]
 
         retJson, error = verify_credentials(username, password)
         if error:
@@ -182,8 +188,8 @@ class DeleteUser(Resource):
     def delete(self):
         posted_data = request.get_json()
 
-        username = posted_data["username"]
-        password = posted_data["password"]
+        username = posted_data[USERNAME]
+        password = posted_data[PASSWORD]
 
         existing_user = verify_account(username, password)
 
