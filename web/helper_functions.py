@@ -21,5 +21,3 @@ def verify_credentials(username, password):
         return message_password_fail(), True
 
     return None, False
-
-

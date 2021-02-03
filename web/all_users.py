@@ -1,6 +1,6 @@
 from flask_restful import Resource
 
-from web.mongodb import get_all_users
+from mongodb import get_all_users
 
 
 class AllUsers(Resource):
