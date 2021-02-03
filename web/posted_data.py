@@ -6,7 +6,9 @@ TO = "to"
 
 def username_password(posted_data) -> tuple:
     """
-    :param posted_data:
+    Get the username ond password from posted data
+
+    :param posted_data: JSON Format
     :return: username, password
     """
     username = posted_data[USERNAME]
@@ -16,7 +18,9 @@ def username_password(posted_data) -> tuple:
 
 def username_password_amount(posted_data) -> tuple:
     """
-    :param posted_data:
+    Get the username, password and amount from posted data
+
+    :param posted_data: JSON Format
     :return: username, password, money
     """
     username = posted_data[USERNAME]
@@ -27,7 +31,10 @@ def username_password_amount(posted_data) -> tuple:
 
 def username_password_to_amount(posted_data) -> tuple:
     """
-    :param posted_data:
+    Get the username, password, to and amount from posted data
+    to = receiver of amount
+
+    :param posted_data: JSON Format
     :return: username, password, to, money
     """
     username = posted_data[USERNAME]

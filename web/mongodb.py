@@ -11,9 +11,16 @@ OWN = "Own"
 DEPT = "Debt"
 SET = "$set"
 ID = "_id"
+BANK = "BANK"
 
 
 def user_exist(username) -> bool:
+    """
+    Check if username exists
+
+    :param username:
+    :return: True of False
+    """
     if users.find({USERNAME: username}).count() == 0:
         return False
     else:
@@ -21,6 +28,13 @@ def user_exist(username) -> bool:
 
 
 def create_new_account(username, hashed_password):
+    """
+    Adds user to database
+
+    :param username:
+    :param hashed_password:
+    :return: Nothing
+    """
     users.insert({
         USERNAME: username,
         PASSWORD: hashed_password,
@@ -30,6 +44,12 @@ def create_new_account(username, hashed_password):
 
 
 def get_hashed_password(username) -> bytes:
+    """
+    Takes the username and returns the hashed password
+
+    :param username:
+    :return: Hashed password
+    """
     hashed_password = users.find({
         USERNAME: username
     })[0][PASSWORD]
