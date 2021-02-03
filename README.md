@@ -31,7 +31,9 @@ Project are tested on Linux (Pop!_OS)
 ## API endpoints
 
 ### GET
-- `/` index.html
+#### `localhost/` index.html
+
+#### `localhost/all`
   
 
 ### POST
@@ -102,7 +104,130 @@ Project are tested on Linux (Pop!_OS)
 }
 ```
 
+#### `localhost/delete`
+``` json
+{
+	"username": "User1",
+	"password": "user_password"
+}
+```
+
 ## IMPORTANT NOTE!
 Before start using the API for customers you need to create The BANK
 
-### Example transfers
+## Example transfers 
+
+### GET
+
+#### Index
+`localhost/`
+
+
+### POST
+
+#### `localhost/register`
+``` json
+{
+	"username": "BANK",
+	"password": "secure_password"
+}
+```
+``` json
+{
+	"username": "adam",
+	"password": "adam_password"
+}
+```
+``` json
+{
+	"username": "bengt",
+	"password": "bengt_password"
+}
+```
+``` json
+{
+	"username": "cesar",
+	"password": "cesar_password"
+}
+```
+
+#### `localhost/balance`
+``` json
+{
+	"username": "BANK",
+	"password": "secure_password"
+}
+```
+``` json
+{
+	"username": "adam",
+	"password": "adam_password"
+}
+```
+``` json
+{
+	"username": "bengt",
+	"password": "bengt_password"
+}
+```
+
+#### `localhost/add`
+``` json
+{
+	"username": "adam",
+	"password": "adam_password",
+	"amount": 100
+}
+```
+``` json
+{
+	"username": "bengt",
+	"password": "bengt_password",
+	"amount": 200
+}
+```
+
+#### `localhost/transfer`
+``` json
+{
+	"username": "adam",
+	"password": "adam_password",
+	"to": "bengt",
+	"amount": 10
+}
+```
+``` json
+{
+	"username": "bengt",
+	"password": "bengt_password",
+	"to": "adam",
+	"amount": 20
+}
+```
+
+#### `localhost/takeloan`
+``` json
+{
+	"username": "adam",
+	"password": "adam_password",
+	"amount": 100
+}
+```
+
+#### `localhost/payloan`
+``` json
+{
+	"username": "adam",
+	"password": "adam_password",
+	"amount": 50
+}
+```
+
+#### `localhost/delete`
+``` json
+{
+	"username": "cesar",
+	"password": "cesar_password"
+}
+```
+
